@@ -1,24 +1,29 @@
+# Running in Docker Locally
 DO NOT USE THE docker-compose.yml file in production is is stricly used for local development.
 
-git clone
-cd folder
+```yaml
+git clone git@github.com:scientist-softserv/wordpress.git
+cd wordpress
 dory down
-dc up
-as soon as you dc up you need to open
-docker desktop and drop into the web
-containers terminal && `echo "Mutex posixsem" >> /opt/bitnami/apache2/conf/httpd.conf`
+docker compose up
+```
 
-Once up you should navigate to `http://localhost/` or `http://localhost/wp-login.php`
-to be able to login using the values listed in the docker-compose.yml file for 
-`WORDPRESS_USERNAME` && `WORDPRESS_PASSWORD`.
+As soon as you dc up you need to open Docker Desktop and drop into the web containers terminal && `echo "Mutex posixsem" >> /opt/bitnami/apache2/conf/httpd.conf`
 
-Restore form all in one backup
-activate the plugin
-download the file attached to 1 pass here for 
-S3 Client: https://start.1password.com/open/i?a=LTLZ652TT5H5FHMYMASSH7PIXM&v=huuakin4bu4xanlhktv42qheam&i=76s7dw5lanhbdif4nzlpfsujpy&h=scientist.1password.com
-and add that plugin on the plugin side menu under add new and upload the file in the 1 password file
+Once up you should navigate to `http://localhost/` or `http://localhost wp-login.php` to be able to login using the values listed in the docker-compose.yml file for `WORDPRESS_USERNAME` && `WORDPRESS_PASSWORD`.
+
+# Restore from All-in-One Migration Backup
+Activate the plugin (All-in-One Migration) in the plugins menu in the sidebar
+Upload the S3 Client add-on plugin by uploading the file attached here in the file attached to 1 pass here: https://start.1password.com/open/i?a=LTLZ652TT5H5FHMYMASSH7PIXM&v=huuakin4bu4xanlhktv42qheam&i=76s7dw5lanhbdif4nzlpfsujpy&h=scientist.1password.com
+Once uploaded you will need to activate the plugin
+
+Now you can either upload the backup .wpress file from a file or form an S3 Bucket. Please review the documentaiton here: https://help.servmask.com/knowledgebase/s3-client-extension-user-guide/
+
 Additional documentation located here: https://help.servmask.com/knowledgebase/s3-client-extension-user-guide/
 
-Once the plugin is activated you will navigate to the side menu under all-in-One WP Migration and click the subnav item `Import` and import your backed up .wpress file and follow the directions untill it is restored.
+Once the plugin is activated, navigate to the side menu under all-in-One WP Migration and click the subnav item `Import` and import your backed up .wpress file and follow the directions untill it is restored.
 
-If you are updating from a version lower than wordpress 6 you may need to rename the Plugins folder. You can so this by dropping into the running containers terminal and `docker cp ./path/to/file-name.php ./file-name.php` and you can update the file and copy it back to the container with `docker cp ./file-name.php ./path/to/file-name.php`.
+How to update files in the container using docker cp:
+`docker cp ./path/to/file-name.php ./file-name.php` 
+Update the file && save
+Copy it back to the container with `docker cp ./file-name.php ./path/to/file-name.php`.
