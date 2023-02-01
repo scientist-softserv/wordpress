@@ -1,0 +1,47 @@
+version: '2'
+services:
+  mariadb:
+    container_name: bitnami_mariadb
+    image: docker.io/bitnami/mariadb:10.6
+    volumes:
+      - 'mariadb_data:/bitnami/mariadb'
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=bn_wordpress
+      - MARIADB_DATABASE=bitnami_wordpress
+  wordpress:
+    container_name: bitnami_wordpress
+    # change the version as needed from here: https://hub.docker.com/r/bitnami/wordpress/tags
+    image: docker.io/bitnami/wordpress:5.3.2-debian-10-r43
+    ports:
+      - '80:8080'
+      - '443:8443'
+    volumes:
+      - 'wordpress_data:/bitnami/wordpress'
+    depends_on:
+      - mariadb
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - WORDPRESS_DATABASE_HOST=mariadb
+      - WORDPRESS_DATABASE_PORT_NUMBER=3306
+      - WORDPRESS_DATABASE_USER=bn_wordpress
+      - WORDPRESS_DATABASE_NAME=bitnami_wordpress
+      - WORDPRESS_PASSWORD=testing123
+      - WORDPRESS_USERNAME=admin@example.com
+      - PHP_UPLOAD_MAX_FILESIZE=2000M
+      - PHP_MEMORY_LIMIT=256M
+      - PHP_POST_MAX_SIZE=2000M
+      - PHP_MAX_EXECUTION_TIME=3000
+      - PHP_MAX_INPUT_TIME=3000
+      - PHP_MAX_INPUT_VARS=3000
+      - WP_DEBUG=true
+volumes:
+  mariadb_data:
+    driver: local
+  wordpress_data:
+    driver: local
+
+# Once the web container is up and running in the terminal run
+# echo "Mutex posixsem" >> /opt/bitnami/apache2/conf/httpd.conf

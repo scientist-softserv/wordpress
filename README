@@ -1,0 +1,24 @@
+DO NOT USE THE docker-compose.yml file in production is is stricly used for local development.
+
+git clone
+cd folder
+dory down
+dc up
+as soon as you dc up you need to open
+docker desktop and drop into the web
+containers terminal && `echo "Mutex posixsem" >> /opt/bitnami/apache2/conf/httpd.conf`
+
+Once up you should navigate to `http://localhost/` or `http://localhost/wp-login.php`
+to be able to login using the values listed in the docker-compose.yml file for 
+`WORDPRESS_USERNAME` && `WORDPRESS_PASSWORD`.
+
+Restore form all in one backup
+activate the plugin
+download the file attached to 1 pass here for 
+S3 Client: https://start.1password.com/open/i?a=LTLZ652TT5H5FHMYMASSH7PIXM&v=huuakin4bu4xanlhktv42qheam&i=76s7dw5lanhbdif4nzlpfsujpy&h=scientist.1password.com
+and add that plugin on the plugin side menu under add new and upload the file in the 1 password file
+Additional documentation located here: https://help.servmask.com/knowledgebase/s3-client-extension-user-guide/
+
+Once the plugin is activated you will navigate to the side menu under all-in-One WP Migration and click the subnav item `Import` and import your backed up .wpress file and follow the directions untill it is restored.
+
+If you are updating from a version lower than wordpress 6 you may need to rename the Plugins folder. You can so this by dropping into the running containers terminal and `docker cp ./path/to/file-name.php ./file-name.php` and you can update the file and copy it back to the container with `docker cp ./file-name.php ./path/to/file-name.php`.
